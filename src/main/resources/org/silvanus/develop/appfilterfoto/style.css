@@ -1,0 +1,9 @@
+.button-custom {
+  -fx-text-fill: black; /* warna teks default */
+  -fx-background-color: transparent;
+  -fx-padding: 0;
+}
+
+.button-custom:hover {
+  -fx-text-fill: white;
+}
