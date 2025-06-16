@@ -1,9 +1,76 @@
-.button-custom {
-  -fx-text-fill: black; /* warna teks default */
+.button {
   -fx-background-color: transparent;
   -fx-padding: 0;
 }
 
-.button-custom:hover {
+.box-border-dashed {
+  -fx-border-color: white;
+  -fx-border-width: 2px;
+  -fx-border-style: dashed;
+  -fx-padding: 10px;
+}
+
+.box-border-dashed:hover {
+  -fx-border-color: #fff80d;
+}
+
+.text-heading {
   -fx-text-fill: white;
+}
+
+.text-sidebar {
+  -fx-text-fill: white;
+}
+
+.text-sidebar:hover {
+  -fx-text-fill: #fff80d;
+}
+
+.menu-bar .label {
+  -fx-text-fill: white;
+}
+
+.menu-bar .label:hover {
+  -fx-text-fill: white;
+}
+
+.menu-item {
+  -fx-text-fill: white;
+  -fx-background-color: #474747;
+}
+
+.context-menu {
+  -fx-background-color: #333333;
+}
+
+.bg-background-gray500 {
+  -fx-background-color: #1a1a1a;
+}
+
+.bg-background-gray400 {
+  -fx-background-color: #474747;
+}
+
+.bg-background-gray300 {
+  -fx-background-color: #7e7e7e;
+}
+
+.bg-background-gray200 {
+  -fx-background-color: #b1b1b1;
+}
+
+.bg-background-gray100 {
+  -fx-background-color: #d8d8d8;
+}
+
+.bg-shadow-left {
+  -fx-effect: dropshadow(gaussian, rgba(26, 26, 26, 10), 20, 0.2, -2, 0);
+}
+
+.bg-shadow-right {
+  -fx-effect: dropshadow(gaussian, rgba(26, 26, 26, 10), 20, 0.2, 2, 0);
+}
+
+.bg-shadow-bottom {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 12, 0.2, 0, 2);
 }

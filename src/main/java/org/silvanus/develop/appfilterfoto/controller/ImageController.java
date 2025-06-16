@@ -3,6 +3,7 @@ package org.silvanus.develop.appfilterfoto.controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
@@ -23,6 +24,7 @@ public class ImageController implements Initializable {
     @FXML private ComboBox<String> filterComboBox;
     @FXML private Button uploadButton, applyButton, resetButton, downloadButton;
     @FXML private ImageView originalImageView, filteredImageView;
+    @FXML private CheckBox previewCheckBox;
 
     private BufferedImage originalImage;
     private BufferedImage filteredImage;
@@ -37,6 +39,52 @@ public class ImageController implements Initializable {
         filters.put("Brightness", new BrightnessFilter(30));
 
         filterComboBox.getItems().addAll(filters.keySet());
+
+        previewCheckBox.setSelected(false);
+        previewCheckBox.setOnAction(e -> togglePreview(previewCheckBox.isSelected()));
+
+        showSingleImage();
+    }
+
+    private void togglePreview(boolean enabled) {
+        if (enabled) {
+            showBothImages();
+        } else {
+            showSingleImage();
+        }
+    }
+
+    //ShowSingleImage Lama
+//    private void showSingleImage() {
+//        if (originalImage != null) {
+//            filteredImageView.setVisible(false);
+//            originalImageView.setImage(ImageUtils.toFXImage(filteredImage));
+//            originalImageView.setVisible(true);
+//        }
+//    }
+
+    //ShowSingleImage Baru
+    private void showSingleImage() {
+        if (originalImage != null) {
+            originalImageView.setVisible(true);
+            filteredImageView.setVisible(false);
+
+            // Gunakan originalImage jika filteredImage belum ada
+            if (filteredImage != null) {
+                originalImageView.setImage(ImageUtils.toFXImage(filteredImage));
+            } else {
+                originalImageView.setImage(ImageUtils.toFXImage(originalImage));
+            }
+        }
+    }
+
+    private void showBothImages() {
+        if (originalImage != null && filteredImage != null) {
+            originalImageView.setImage(ImageUtils.toFXImage(originalImage));
+            filteredImageView.setImage(ImageUtils.toFXImage(filteredImage));
+            originalImageView.setVisible(true);
+            filteredImageView.setVisible(true);
+        }
     }
 
     @FXML
@@ -59,20 +107,67 @@ public class ImageController implements Initializable {
         }
     }
 
+    //handleApply Lama
+//    @FXML
+//    private void handleApply() {
+//        String selected = filterComboBox.getValue();
+//        if (selected != null && originalImage != null) {
+//            Filter filter = filters.get(selected);
+//            filteredImage = filter.apply(originalImage);
+//            filteredImageView.setImage(ImageUtils.toFXImage(filteredImage));
+//        }
+//    }
+
+    //handleApply baru
     @FXML
     private void handleApply() {
         String selected = filterComboBox.getValue();
         if (selected != null && originalImage != null) {
             Filter filter = filters.get(selected);
             filteredImage = filter.apply(originalImage);
-            filteredImageView.setImage(ImageUtils.toFXImage(filteredImage));
+
+            if (previewCheckBox.isSelected()) {
+                // Preview aktif: tampilkan dua gambar
+                filteredImageView.setImage(ImageUtils.toFXImage(filteredImage));
+                originalImageView.setImage(ImageUtils.toFXImage(originalImage));
+            } else {
+                // Preview mati: tampilkan hasil filter menggantikan gambar utama
+                originalImageView.setImage(ImageUtils.toFXImage(filteredImage));
+                filteredImageView.setImage(null); // kosongkan ImageView kedua
+            }
         }
     }
 
+
+    //Reset Image lama
+//    @FXML
+//    private void resetImage() {
+////        if (originalImage != null) {
+////            filteredImageView.setImage(null);
+////        }
+//        if (originalImage != null) {
+//            filteredImage = originalImage;
+//            filteredImageView.setImage(ImageUtils.toFXImage(originalImage));
+//        }
+//    }
+
+    //Reset Image Baru
     @FXML
     private void resetImage() {
         if (originalImage != null) {
-            filteredImageView.setImage(null);
+            filteredImage = null;
+
+            if (previewCheckBox.isSelected()) {
+                // Mode dua gambar: tampilkan gambar original saja, kosongkan filtered
+                originalImageView.setImage(ImageUtils.toFXImage(originalImage));
+                filteredImageView.setImage(null);
+            } else {
+                // Mode satu gambar: tampilkan kembali gambar original di imageView utama
+                originalImageView.setImage(ImageUtils.toFXImage(originalImage));
+                filteredImageView.setImage(null);
+            }
+
+            filterComboBox.getSelectionModel().clearSelection();
         }
     }
 
